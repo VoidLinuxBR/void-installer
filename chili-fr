@@ -846,6 +846,16 @@ remove_real_bridge() {
   # DETECTAR INTERFACE FÍSICA SLAVE
   ###########################################################################
    iface_phys=$(ip -o link show | grep -w "master $bridge_name" | awk -F: '{print $2}' | awk '{print $1}')
+#   iface_phys=$(
+#     ip -o link show \
+#     | awk -v br="$bridge_name" '
+#         $0 ~ ("master " br) {
+#           split($2, a, ":");
+#           print a[1];
+#           exit;
+#         }
+#       '
+#   )
 
   if [[ -z "$iface_phys" ]]; then
     msg_err "Não foi possível detectar interface física slave."
